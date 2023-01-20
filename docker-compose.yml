@@ -1,0 +1,91 @@
+---
+
+version: '3.9'
+
+name: athens
+
+services:
+  # athens-proxy:
+  athens:
+    image: issenn/athens
+    container_name: athens
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+      - label:disable
+    # expose:
+    #   - "3000"
+    ports:
+      - "3000:3000"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 100M
+        reservations:
+          cpus: '0.25'
+          memory: 6M
+    volumes:
+      # - type: bind
+      #   source: "./config"
+      #   target: "/config"
+      - type: bind
+        source: "./config/config.toml"
+        target: "/etc/athens/config.toml"
+        read_only: true
+      - type: bind
+        source: "./config/download.hcl"
+        target: "/etc/athens/download.hcl"
+        read_only: true
+      - type: bind
+        source: "./config/filter/default"
+        target: "/etc/athens/filter/default"
+        read_only: true
+      - type: bind
+        source: "./config/git/config"
+        target: "/root/.gitconfig"
+        read_only: true
+      - type: bind
+        source: "./config/ssh/config"
+        target: "/root/.ssh/config"
+        read_only: true
+      - type: bind
+        source: "${HOME}/.ssh/id_rsa"
+        target: "/root/.ssh/id_rsa"
+        read_only: true
+      - type: bind
+        source: "./athens-storage"
+        target: "/var/lib/athens"
+      # - type: bind
+      #   source: "~/.netrc"
+      #   target: "/root/.netrc"
+      #   read_only: true
+    # volumes_from:
+    #   - service_name
+    #   - service_name:ro
+    #   - container:container_name
+    #   - container:container_name:rw
+    environment:
+      TZ: "Asia/Shanghai"
+      # GOSUMDB: off
+      # GOSUMDB: "sum.golang.google.cn"
+      HTTP_PROXY: "${HTTP_PROXY}"
+      HTTPS_PROXY: "${HTTPS_PROXY}"
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.docker.network=traefik"
+    hostname: athens
+    dns:
+      - 10.0.0.102
+      # - 101.6.6.6
+      # - 149.112.112.112
+      # - 1.1.1.1
+      # - 223.5.5.5
+    # dns_search:
+    #   - docker.localhost
+    # domainname: docker.localhost
+    # network_mode: "bridge"
+    # networks:
+    #   - "traefik"
+    # depends_on:
+    #   {}
