@@ -45,9 +45,10 @@ GoEnv = "development"
 # Therefore, whether you use the config file or the env var, make sure you have all the values you need there.
 GoBinaryEnvVars = [
   # goproxy.cn/sumdb/sum.golang.org
+  # gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6
   "GOSUMDB=sum.golang.google.cn",
   # "GOSUMDB=off",
-  "GOPROXY=https://goproxy.cn,https://proxy.golang.com.cn,https://mirrors.aliyun.com/goproxy/,gosum.io+ce6e7565+AY5qEHUk/qmHc5btzW45JVoENfazw8LielDsaI+lEbq6,direct",
+  "GOPROXY=https://goproxy.cn,https://proxy.golang.com.cn,https://mirrors.aliyun.com/goproxy/,direct",
   # "GOPROXY=direct"
 ]
 

@@ -7,25 +7,62 @@ name: athens
 services:
   # athens-proxy:
   athens:
-    image: issenn/athens
+    image: issenn/athens:latest
     container_name: athens
     restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
-      - label:disable
     # expose:
     #   - "3000"
     ports:
       - "3000:3000"
+    hostname: athens
+    dns:
+      - 10.0.0.102
+      # - 101.6.6.6
+      # - 149.112.112.112
+      # - 1.1.1.1
+      # - 223.5.5.5
+    # dns_search:
+    #   - docker.localhost
+    # domainname: docker.localhost
+    # network_mode: "bridge"
+    # networks:
+    #   - "traefik"
+    security_opt:
+      - no-new-privileges:true
+      - label:disable
     deploy:
       resources:
         limits:
           cpus: '0.50'
-          memory: 100M
+          memory: 50M
         reservations:
           cpus: '0.25'
           memory: 6M
+    environment:
+      TZ: "Asia/Shanghai"
+      DEFAULT_TZ: "Asia/Shanghai"
+      # GOSUMDB: off
+      # GOSUMDB: "sum.golang.google.cn"
+      HTTP_PROXY: "${HTTP_PROXY}"
+      HTTPS_PROXY: "${HTTPS_PROXY}"
     volumes:
+      # ${GOROOT}/src/time/zoneinfo_unix.go
+      # /private/var/db/timezone/zoneinfo/
+      # /var/db/timezone/zoneinfo/
+      # /usr/share/zoneinfo/
+      # /etc/localtime/
+      # - type: bind
+      #   source: "/usr/share/zoneinfo/"
+      #   target: "/usr/share/zoneinfo/"
+      #   read_only: true
+      - type: bind
+        source: "/usr/share/zoneinfo/Asia/Shanghai"
+        target: "/usr/share/zoneinfo/Asia/Shanghai"
+        read_only: true
+      # - type: bind
+      #   source: "/etc/localtime/"
+      #   target: "/etc/localtime/"
+      #   read_only: true
       # - type: bind
       #   source: "./config"
       #   target: "/config"
@@ -65,27 +102,7 @@ services:
     #   - service_name:ro
     #   - container:container_name
     #   - container:container_name:rw
-    environment:
-      TZ: "Asia/Shanghai"
-      # GOSUMDB: off
-      # GOSUMDB: "sum.golang.google.cn"
-      HTTP_PROXY: "${HTTP_PROXY}"
-      HTTPS_PROXY: "${HTTPS_PROXY}"
     # labels:
     #   - "traefik.enable=true"
     #   - "traefik.docker.network=traefik"
-    hostname: athens
-    dns:
-      - 10.0.0.102
-      # - 101.6.6.6
-      # - 149.112.112.112
-      # - 1.1.1.1
-      # - 223.5.5.5
-    # dns_search:
-    #   - docker.localhost
-    # domainname: docker.localhost
-    # network_mode: "bridge"
-    # networks:
-    #   - "traefik"
-    # depends_on:
-    #   {}
+

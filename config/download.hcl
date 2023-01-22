@@ -8,8 +8,8 @@
 downloadURL = "https://goproxy.cn"
 
 // mode = "async_redirect"
-// mode = "sync"
-mode = "none"
+mode = "sync"
+// mode = "none"
 
 # sync your github repo
 # --------------------------------
